@@ -1,0 +1,8 @@
+.image-background{
+    background-image: url('/SupDeCuisine/images/Recettes/Recette11.jpg');
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
