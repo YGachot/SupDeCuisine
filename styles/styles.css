@@ -1,3 +1,5 @@
+/* HEADER */
+
 .image-background{
     background-image: url('/SupDeCuisine/images/Recettes/Recette11.jpg');
     position: relative;
@@ -33,13 +35,6 @@
     z-index: 1;
 }
 
-
-.test{
-    position: relative;
-    width: auto;
-    height: 1000px;
-}
-
 .rechercher-container{
     display: flex;
     align-items: center;
@@ -71,3 +66,5 @@
     transition: background-color 0.3s;
     z-index: 1;
 }
+
+/* GRILLE DE RECETTES */
