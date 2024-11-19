@@ -26,7 +26,6 @@ function createRecipeCard(recipe) {
             <ul class="recipe-ingredients">
                 ${getIngredientsList(recipe.ingredients)}
             </ul>
-            <p>Temps de préparation: ${recipe.time} minutes</p>
         </div>
     `;
 
