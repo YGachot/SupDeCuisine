@@ -8,7 +8,7 @@ async function fetchRecipes() {
     }
 }
 
-const imageBasePath = '/SupDeCuisine/images/Recettes/'
+const imageBasePath = '/SupDeCuisine/images/Recettes/';
 
 function createRecipeCard(recipe) {
     const recipeCard = document.createElement('div');
@@ -16,30 +16,32 @@ function createRecipeCard(recipe) {
 
     const imageName = recipe.image.split('/').pop();
     const imagePath = `${imageBasePath}${imageName}`;
+    const ingredients = recipe.ingredients;
 
     recipeCard.innerHTML = `
         <img src="${imagePath}" alt="${imageName}" class="recipe-image">
         <div class="recipe-details">
             <h2 class="recipe-title">${recipe.name}</h2>
+            <br>
+            <h3 class="recipe-recipe">Recette</h3>
             <p class="recipe-description">${recipe.description}</p>
             <h3>Ingrédients:</h3>
-            <ul class="recipe-ingredients">
-                ${getIngredientsList(recipe.ingredients)}
-            </ul>
+            <div class="ingredients-list">
+                ${ingredients.map(ingredient => `
+                    <div>
+                        ${ingredient.ingredient} ${ingredient.quantity ? ingredient.quantity : ''} ${ingredient.unit ? ingredient.unit : ''}
+                    </div>
+                `).join('')}
+            </div>
         </div>
     `;
 
     return recipeCard;
 }
 
-function getIngredientsList(ingredients) {
-    return ingredients.map(ingredient => `
-        <li>${ingredient.quantity} ${ingredient.unit ? ingredient.unit + ' ' : ''}${ingredient.ingredient}</li>
-    `).join('');
-}
-
 function displayRecipes(recipes) {
     const gridContainer = document.getElementById('recipe-grid');
+    gridContainer.innerHTML = '';
     recipes.forEach(recipe => {
         const recipeCard = createRecipeCard(recipe);
         gridContainer.appendChild(recipeCard);
