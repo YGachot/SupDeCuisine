@@ -3,6 +3,9 @@ async function fetchRecipes() {
         const response = await fetch('https://gist.githubusercontent.com/baiello/0a974b9c1ec73d7d0ed7c8abc361fc8e/raw/e598efa6ef42d34cc8d7e35da5afab795941e53e/recipes.json');
         const recipes = await response.json();
         displayRecipes(recipes);
+
+        const searchInput = document.querySelector('.rechercher-input');
+        searchInput.addEventListener('input', () => filterRecipes(recipes, searchInput.value));
     } catch (error) {
         console.error('Erreur lors de la récupération des recettes:', error);
     }
@@ -24,8 +27,11 @@ function createRecipeCard(recipe) {
             <h2 class="recipe-title">${recipe.name}</h2>
             <br>
             <h3 class="recipe-recipe">Recette</h3>
+            <br>
             <p class="recipe-description">${recipe.description}</p>
+            <br>
             <h3>Ingrédients:</h3>
+            <br>
             <div class="ingredients-list">
                 ${ingredients.map(ingredient => `
                     <div>
@@ -39,6 +45,12 @@ function createRecipeCard(recipe) {
     return recipeCard;
 }
 
+function updateCounter(count) {
+    const counterElement = document.getElementById('recipe-counter');
+    counterElement.textContent = `${count} Recettes`;
+}
+
+
 function displayRecipes(recipes) {
     const gridContainer = document.getElementById('recipe-grid');
     gridContainer.innerHTML = '';
@@ -46,6 +58,20 @@ function displayRecipes(recipes) {
         const recipeCard = createRecipeCard(recipe);
         gridContainer.appendChild(recipeCard);
     });
+    updateCounter(recipes.length); 
+}
+
+function filterRecipes(recipes, query) {
+    const lowerQuery = query.toLowerCase();
+    const filteredRecipes = recipes.filter(recipe => {
+        const inName = recipe.name.toLowerCase().includes(lowerQuery);
+        const inDescription = recipe.description.toLowerCase().includes(lowerQuery);
+        const inIngredients = recipe.ingredients.some(ingredient =>
+            ingredient.ingredient.toLowerCase().includes(lowerQuery)
+        );
+        return inName || inDescription || inIngredients;
+    });
+    displayRecipes(filteredRecipes);
 }
 
 fetchRecipes();

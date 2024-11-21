@@ -24,7 +24,7 @@
 
 .titre{
     position: relative;
-    max-width: 55%;
+    max-width: 65%;
     height: auto;
     color: #FFD966;
     text-align: center;
@@ -52,13 +52,13 @@
     width: 30px;
     height: auto;
     cursor: pointer;
-    padding: 5px 5px;
+    padding: 2px 5px;
 }
 
 .rechercher-input {
     border: none;
     outline: none;
-    padding: 10px 15px;
+    padding: 2px 15px;
     font-size: 16px;
     flex: 1;
     z-index: 1;
@@ -73,15 +73,6 @@
 
 /* GRILLE DE RECETTES */
 
-h1{
-    text-align: center;
-    font-family: 'Aqum2', sans-serif;
-    font-size: 300%;
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-top: 3%;
-}
-
 h2{
     font-family: 'Aqum2', sans-serif;
     text-transform: uppercase;
@@ -94,9 +85,21 @@ h3{
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 35px;
     margin: 40px;
+}
+
+@media (max-width: 1200px) {
+    .grid-container {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .grid-container {
+        grid-template-columns: repeat(1,1fr);
+    }
 }
 
 .recipe-card {
@@ -116,8 +119,4 @@ h3{
 .recipe-details{
     padding: 20px;
     font-family: 'Aqum2', sans-serif;
-}
-
-.recipe-ingredients{
-    
 }
