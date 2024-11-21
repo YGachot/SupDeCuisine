@@ -50,6 +50,15 @@ function updateCounter(count) {
     counterElement.textContent = `${count} Recettes`;
 }
 
+function displayErrorMessage(count, query) {
+    const errorMessageElement = document.getElementById('error-message');
+    if (count === 0) {
+        errorMessageElement.textContent = `Aucune recette ne contient '${query}'`;
+        errorMessageElement.style.display = 'block'; // Affiche le message
+    } else {
+        errorMessageElement.style.display = 'none'; // Cache le message
+    }
+}
 
 function displayRecipes(recipes) {
     const gridContainer = document.getElementById('recipe-grid');
@@ -71,7 +80,9 @@ function filterRecipes(recipes, query) {
         );
         return inName || inDescription || inIngredients;
     });
+
     displayRecipes(filteredRecipes);
+    displayErrorMessage(filteredRecipes.length, query); // Affiche le message d'erreur si nécessaire
 }
 
 fetchRecipes();
