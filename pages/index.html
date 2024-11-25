@@ -23,7 +23,19 @@
     </header>
 
     <main>
-        <div id="recipe-counter"> 0 Recettes</div>
+        <div class="filters">
+            <button id="utensil-button">Sélectionner un ustensile</button>
+            <div id="utensil-options" class="filter-options"></div>
+        
+            <button id="appliance-button">Sélectionner un appareil</button>
+            <div id="appliance-options" class="filter-options"></div>
+        
+            <button id="ingredient-button">Sélectionner un ingrédient</button>
+            <div id="ingredient-options" class="filter-options"></div>
+        </div>
+        <div id="recipe-container"></div>                 
+        
+        <div id="recipe-counter"> 0 Recette</div>
         <div id="error-message"></div>
         <div id="recipe-grid" class="grid-container"></div>
         <script src="/SupDeCuisine/scripts/script.js"></script>
