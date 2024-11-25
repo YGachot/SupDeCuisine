@@ -33,12 +33,15 @@ function createRecipeCard(recipe) {
             <h3>Ingrédients:</h3>
             <br>
             <div class="ingredients-list">
-                ${ingredients.map(ingredient => `
-                    <div>
-                        ${ingredient.ingredient} ${ingredient.quantity ? ingredient.quantity : ''} ${ingredient.unit ? ingredient.unit : ''}
+                ${ingredients.map((ingredient, index) => `
+                    <div class="ingredient-item ingredient-${index}">
+                        <span class="ingredient-name">${ingredient.ingredient}</span>
+                        <br>
+                        <span class="ingredient-quantity">${ingredient.quantity ? ingredient.quantity : ''}${ingredient.quantity && ingredient.unit ? ' ' : ''}${ingredient.unit ? ingredient.unit : ''}</span>
                     </div>
                 `).join('')}
             </div>
+
         </div>
     `;
 

@@ -123,6 +123,19 @@ h3{
     font-family: 'Aqum2', sans-serif;
 }
 
+/*INGREDIENTS*/
+
+.ingredients-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    margin: 20px;
+}
+
+.ingredient-quantity{
+    color: #999999;
+}
+
 /* RECHERCHE ET COMPTEUR */
 
 #recipe-counter{
