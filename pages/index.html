@@ -24,15 +24,21 @@
 
     <main>
         <div class="filters">
-            <button id="utensil-button">Sélectionner un ustensile</button>
-            <div id="utensil-options" class="filter-options"></div>
-        
-            <button id="appliance-button">Sélectionner un appareil</button>
-            <div id="appliance-options" class="filter-options"></div>
-        
-            <button id="ingredient-button">Sélectionner un ingrédient</button>
-            <div id="ingredient-options" class="filter-options"></div>
+            <div class="custom-select-wrapper" id="utensil-filter">
+                <input type="text" class="custom-select-input" placeholder="Ustensile">
+                <ul class="custom-options-list"></ul>
+            </div>
+            <div class="custom-select-wrapper" id="appliance-filter">
+                <input type="text" class="custom-select-input" placeholder="Appareil">
+                <ul class="custom-options-list"></ul>
+            </div>
+            <div class="custom-select-wrapper" id="ingredient-filter">
+                <input type="text" class="custom-select-input" id="search-input" placeholder="Ingrédient">
+                <ul class="custom-options-list" id="options-list"></ul>
+            </div>
         </div>
+        <button id="reset-filters-button" class="reset-button">Réinitialiser les filtres</button>
+        
         <div id="recipe-container"></div>                 
         
         <div id="recipe-counter"> 0 Recette</div>

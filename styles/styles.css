@@ -43,7 +43,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     z-index: 1;
-    width: 100%;
+    width: 90%;
     max-width: 600px;
     margin-top: 6%;
 }
@@ -127,13 +127,18 @@ h3{
 .ingredients-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 30px;
     margin: 20px;
+}
+
+.details-ingredients-list{
+    list-style-type: none;
 }
 
 .ingredient-quantity{
     color: #999999;
 }
+
 
 /* RECHERCHE ET COMPTEUR */
 
@@ -142,7 +147,6 @@ h3{
     text-align: end;
     font-size: 150%;
     padding-right: 20px;
-    padding-top: 10px;
 }
 
 #error-message{
@@ -154,14 +158,63 @@ h3{
 
 /* test */
 
-.filter-options {
-    display: none; /* Cache les options des filtres par défaut */
+.filters {
+    display: flex;
+    gap: 100px;
+    margin: 20px;
+}
+.custom-select-wrapper {
+    position: relative;
+    width: 200px;
 }
 
-.filter-options .filter-option {
+.custom-select-wrapper input::placeholder{
+    color: black;
+}
+
+.custom-select-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    background: #FFD966;
+    color: #000000 ;
+    font-size: 14px;
+    font-family: 'Aqum2';
+    border: none;
     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.filter-options .selected {
-    background-color: #ddd; /* Option sélectionnée avec un fond gris */
+.custom-options-list {
+    display: none;
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-top: none;
+    z-index: 999;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: 'Aqum2';
 }
+
+.custom-options-list.visible {
+    display: block;
+}
+
+.reset-button {
+    background: #FFD966;
+    color: #000000 ;
+    font-size: 14px;
+    font-family: 'Aqum2';
+    margin-left: 20px;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}   
