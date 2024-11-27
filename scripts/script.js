@@ -5,9 +5,9 @@ fetch('https://gist.githubusercontent.com/baiello/0a974b9c1ec73d7d0ed7c8abc361fc
     .then(response => response.json())
     .then(data => {
         recipes = data;
+        extractIngredients();
         initializeFilters();
         displayRecipes(recipes);
-        extractIngredients();
     })
     .catch(error => console.error('Erreur de récupération des recettes:', error));
 
@@ -69,7 +69,7 @@ function updateCounter(count) {
 function initializeFilters() {
     populateFilters();
     setupIngredientSearch();
-    setupSearchBar(); // Ajout de la gestion de la barre de recherche principale
+    setupSearchBar();
 }
 
 function populateFilters() {
@@ -80,20 +80,35 @@ function populateFilters() {
 
 function populateCustomSelect(filterId, options) {
     const filterWrapper = document.getElementById(filterId);
-    const selectInput = filterWrapper.querySelector('.custom-select-input');
     const optionsList = filterWrapper.querySelector('.custom-options-list');
 
     optionsList.innerHTML = '';
 
     options.forEach(option => {
         const optionElement = document.createElement('li');
-        optionElement.textContent = option;
-        optionElement.addEventListener('click', function () {
-            selectInput.value = option;
-            optionsList.style.display = 'none';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = option;
+        checkbox.id = `${filterId}-${option}`;
+
+        const label = document.createElement('label');
+        label.setAttribute('for', `${filterId}-${option}`);
+        label.textContent = option;
+
+        optionElement.appendChild(checkbox);
+        optionElement.appendChild(label);
+
+        checkbox.addEventListener('change', function () {
             applyFilters();
+            optionsList.style.display = 'none'; // Ferme la liste déroulante après sélection
         });
+
         optionsList.appendChild(optionElement);
+    });
+
+    const selectInput = filterWrapper.querySelector('.custom-select-input');
+    selectInput.addEventListener('focus', function () {
+        optionsList.style.display = 'block';
     });
 
     selectInput.addEventListener('input', function () {
@@ -103,29 +118,29 @@ function populateCustomSelect(filterId, options) {
         );
         updateOptionsList(filteredOptions, optionsList);
     });
-
-    selectInput.addEventListener('focus', function () {
-        optionsList.style.display = 'block';
-    });
-
-    document.addEventListener('click', function (event) {
-        if (!filterWrapper.contains(event.target) && event.target !== selectInput) {
-            optionsList.style.display = 'none';
-        }
-    });
 }
 
 function updateOptionsList(filteredOptions, optionsList) {
     optionsList.innerHTML = '';
     filteredOptions.forEach(option => {
         const optionElement = document.createElement('li');
-        optionElement.textContent = option;
-        optionElement.addEventListener('click', function () {
-            const selectInput = optionsList.closest('.custom-select-wrapper').querySelector('.custom-select-input');
-            selectInput.value = option;
-            optionsList.style.display = 'none';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = option;
+        checkbox.id = `search-${option}`;
+
+        const label = document.createElement('label');
+        label.setAttribute('for', `search-${option}`);
+        label.textContent = option;
+
+        optionElement.appendChild(checkbox);
+        optionElement.appendChild(label);
+
+        checkbox.addEventListener('change', function () {
             applyFilters();
+            optionsList.style.display = 'none'; // Ferme la liste déroulante après sélection
         });
+
         optionsList.appendChild(optionElement);
     });
 
@@ -143,12 +158,23 @@ function setupIngredientSearch() {
         optionsList.innerHTML = '';
         filteredOptions.forEach(option => {
             const optionElement = document.createElement('li');
-            optionElement.textContent = option;
-            optionElement.addEventListener('click', function () {
-                searchInput.value = option;
-                optionsList.style.display = 'none';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = option;
+            checkbox.id = `search-${option}`;
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `search-${option}`);
+            label.textContent = option;
+
+            optionElement.appendChild(checkbox);
+            optionElement.appendChild(label);
+
+            checkbox.addEventListener('change', function () {
                 applyFilters();
+                optionsList.style.display = 'none'; // Ferme la liste déroulante après sélection
             });
+
             optionsList.appendChild(optionElement);
         });
 
@@ -176,7 +202,6 @@ function setupIngredientSearch() {
     });
 }
 
-// Nouvelle fonction pour rechercher dans toute la recipe card
 function searchInRecipes(query) {
     const lowerCaseQuery = query.toLowerCase();
 
@@ -193,7 +218,6 @@ function searchInRecipes(query) {
     return filteredRecipes;
 }
 
-// Configuration de la recherche globale
 function setupSearchBar() {
     const searchInput = document.querySelector('.rechercher-input');
 
@@ -212,15 +236,15 @@ function setupSearchBar() {
 }
 
 function applyFilters() {
-    const selectedUtensil = document.querySelector('#utensil-filter .custom-select-input').value.toLowerCase();
-    const selectedAppliance = document.querySelector('#appliance-filter .custom-select-input').value.toLowerCase();
-    const selectedIngredient = document.querySelector('#ingredient-filter .custom-select-input').value.toLowerCase();
+    const selectedUtensils = Array.from(document.querySelectorAll('#utensil-filter .custom-options-list input:checked')).map(input => input.value.toLowerCase());
+    const selectedAppliances = Array.from(document.querySelectorAll('#appliance-filter .custom-options-list input:checked')).map(input => input.value.toLowerCase());
+    const selectedIngredients = Array.from(document.querySelectorAll('#ingredient-filter .custom-options-list input:checked')).map(input => input.value.toLowerCase());
     const query = document.querySelector('.rechercher-input').value.toLowerCase().trim();
 
     const filteredRecipes = recipes.filter(recipe => {
-        const matchIngredients = !selectedIngredient || recipe.ingredients.some(ing => ing.ingredient.toLowerCase().includes(selectedIngredient));
-        const matchAppliances = !selectedAppliance || recipe.appliance.toLowerCase().includes(selectedAppliance);
-        const matchUstensils = !selectedUtensil || recipe.ustensils.some(ust => ust.toLowerCase().includes(selectedUtensil));
+        const matchIngredients = selectedIngredients.length === 0 || recipe.ingredients.some(ing => selectedIngredients.includes(ing.ingredient.toLowerCase()));
+        const matchAppliances = selectedAppliances.length === 0 || selectedAppliances.includes(recipe.appliance.toLowerCase());
+        const matchUstensils = selectedUtensils.length === 0 || recipe.ustensils.some(ust => selectedUtensils.includes(ust.toLowerCase()));
         const matchSearch = recipe.name.toLowerCase().includes(query) ||
             recipe.description.toLowerCase().includes(query) ||
             recipe.ingredients.some(ing => ing.ingredient.toLowerCase().includes(query));
@@ -229,27 +253,41 @@ function applyFilters() {
     });
 
     displayRecipes(filteredRecipes);
+    displaySelectedFilters(selectedIngredients, selectedAppliances, selectedUtensils, query);
     displayErrorMessage(filteredRecipes.length, query);
 }
 
 function resetFilters() {
     document.querySelectorAll('.custom-select-input').forEach(input => input.value = '');
-    document.querySelector('.rechercher-input').value = '';
-
-    displayRecipes(recipes);
-
-    const errorMessageElement = document.getElementById('error-message');
-    if (errorMessageElement) errorMessageElement.style.display = 'none';
+    location.reload();
 }
 
 document.getElementById('reset-filters-button').addEventListener('click', resetFilters);
 
-function displayErrorMessage(count, query) {
-    const errorMessageElement = document.getElementById('error-message');
-    if (count === 0) {
-        errorMessageElement.textContent = `Aucune recette ne contient '${query}'`;
-        errorMessageElement.style.display = 'block';
+function displaySelectedFilters(selectedIngredients, selectedAppliances, selectedUtensils, query) {
+    const selectedFiltersContainer = document.getElementById('selected-filters');
+    selectedFiltersContainer.innerHTML = '';
+
+    [...selectedIngredients, ...selectedAppliances, ...selectedUtensils].forEach(filter => {
+        const filterElement = document.createElement('div');
+        filterElement.className = 'selected-filter';
+        filterElement.textContent = filter;
+
+        filterElement.addEventListener('click', function () {
+            const checkbox = document.querySelector(`input[value="${filter}"]`);
+            checkbox.checked = false;
+            applyFilters();
+        });
+
+        selectedFiltersContainer.appendChild(filterElement);
+    });
+}
+
+function displayErrorMessage(recipeCount, query) {
+    const errorMessageContainer = document.getElementById('error-message');
+    if (recipeCount === 0) {
+        errorMessageContainer.textContent = `Aucune recette trouvée pour "${query}".`;
     } else {
-        errorMessageElement.style.display = 'none';
+        errorMessageContainer.textContent = '';
     }
 }
