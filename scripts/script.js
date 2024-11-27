@@ -33,7 +33,7 @@ function createRecipeCard(recipe) {
     recipeCard.className = 'recipe-card';
 
     const imageName = recipe.image.split('/').pop();
-    const imagePath = `/SupDeCuisine/images/Recettes/${imageName}`;
+    const imagePath = `/images/Recettes/${imageName}`;
 
     recipeCard.innerHTML = `
     <img src="${imagePath}" alt="${recipe.name}" class="recipe-image">
