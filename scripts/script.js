@@ -32,7 +32,7 @@ function createRecipeCard(recipe) {
     recipeCard.className = 'recipe-card';
 
     const imageName = recipe.image.split('/').pop();
-    const imagePath = `/images/recette2${imageName}`;
+    const imagePath = `/images/recette2/${imageName}`;
 
     recipeCard.innerHTML = `
     <img src="${imagePath}" alt="${recipe.name}" class="recipe-image">
@@ -99,7 +99,7 @@ function populateCustomSelect(filterId, options) {
 
         checkbox.addEventListener('change', function () {
             applyFilters();
-            optionsList.style.display = 'none';
+            optionsList.style.display = 'none'; // Ferme la liste déroulante après sélection
         });
 
         optionsList.appendChild(optionElement);
@@ -137,7 +137,7 @@ function updateOptionsList(filteredOptions, optionsList) {
 
         checkbox.addEventListener('change', function () {
             applyFilters();
-            optionsList.style.display = 'none';
+            optionsList.style.display = 'none'; // Ferme la liste déroulante après sélection
         });
 
         optionsList.appendChild(optionElement);
@@ -171,7 +171,7 @@ function setupIngredientSearch() {
 
             checkbox.addEventListener('change', function () {
                 applyFilters();
-                optionsList.style.display = 'none';
+                optionsList.style.display = 'none'; // Ferme la liste déroulante après sélection
             });
 
             optionsList.appendChild(optionElement);
